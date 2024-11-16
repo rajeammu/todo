@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px;
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #f2f2f2; 
+        }
+        form {
+            margin: 20px 0; /* Space above and below the form */
+            display: flex;
+            align-items: center; /* Align items vertically center */
+        }
+        label {
+            margin-right: 10px; /* Space between label and select */
+        }
+        button {
+            margin-left: 10px; /* Space between select and button */
+        }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <form method="get">
+        <label for="filter_status">Filter by Status:</label>
+        <select id="filter_status" name="filter_status">
+            <option value="">All</option>
+            <option value="Pending" {% if request.GET.filter_status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="In Progress" {% if request.GET.filter_status == 'In Progress' %}selected{% endif %}>In Progress</option>
+            <option value="Completed" {% if request.GET.filter_status == 'Completed' %}selected{% endif %}>Completed</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+    <a href="{% url 'todo_create' %}">Add New Todo</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+            <tr>
+                <td data-label="Title">{{ todo.title }}</td>
+                <td data-label="Due Date">{{ todo.due_date|date:"Y-m-d H:i" }}</td>
+                <td data-label="Status">{{ todo.status }}</td>
+                <td data-label="Actions">
+                    <a href="{% url 'todo_update' todo.id %}">Edit</a>
+                    <a href="{% url 'todo_delete' todo.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    </table>
+</body>
+</html>
+
